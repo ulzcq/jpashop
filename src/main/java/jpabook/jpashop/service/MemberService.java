@@ -2,9 +2,7 @@ package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.repository.MemberRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +40,11 @@ public class MemberService {
     /** 회원 조회 */
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
+    }
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id); //영속성 컨텍스트에서 가져온다
+        member.setName(name); //값을 수정하면 트랜잭션이 끝나고 커밋되는 시점에서 JPA가 변경감지 -> update 쿼리를 DB에 날림
     }
 }
