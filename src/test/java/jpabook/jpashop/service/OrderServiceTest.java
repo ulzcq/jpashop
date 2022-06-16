@@ -2,7 +2,7 @@ package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.Book;
-import jpabook.jpashop.domain.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
