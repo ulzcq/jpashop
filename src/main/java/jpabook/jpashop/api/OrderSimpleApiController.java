@@ -66,7 +66,7 @@ public class OrderSimpleApiController {
         private Long orderId;
         private String name;
         private LocalDateTime orderDate;
-        private OrderStatus orderStataus;
+        private OrderStatus orderStatus;
         private Address address;
 
         //Dto가 엔티티를 받는 것은 크게 문제가 되지 않음
@@ -74,7 +74,7 @@ public class OrderSimpleApiController {
             orderId = order.getId();
             name = order.getMember().getName(); //LAZY 초기화
             orderDate = order.getOrderDate();
-            orderStataus = order.getStatus();
+            orderStatus = order.getStatus();
             address = order.getDelivery().getAddress(); //LAZY 초기화
         }
     }
