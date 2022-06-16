@@ -20,10 +20,10 @@ public class Member {
     @NotEmpty
     private String name;
 
-    @JsonIgnore
     @Embedded
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member")//Order의 member필드가 주인, 거울, 읽기전용
     private List<Order> orders = new ArrayList<>();
 }
