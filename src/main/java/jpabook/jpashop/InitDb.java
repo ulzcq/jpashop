@@ -27,6 +27,7 @@ public class InitDb {
     @PostConstruct
     public void init(){
         initService.dbInit1();
+        initService.dbInit2();
         //여기에 로직을 몰빵하면 스프링 라이프사이클 때문에, 트랜잭션 먹이거나 하는게 잘안되므로
         //아래에서 따로 별도의 빈으로 등록해야한다.
     }
