@@ -40,12 +40,12 @@ public class OrderApiController {
     public List<OrderDto> ordersV2(){
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
-        //DTO 변환
-        List<OrderDto> collect = orders.stream()
+        //DTO로 변환
+        List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
                 .collect(Collectors.toList());
 
-        return collect;
+        return result;
     }
 
     @Getter //@Data는 toString까지 만들어주기도하고, 그냥 Getter 쓰는게 나을 수도.
@@ -56,7 +56,8 @@ public class OrderApiController {
         private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private Address address;
-        private List<OrderItem> orderItems;
+//        private List<OrderItem> orderItems; // 엔티티에 의존하면 안된다. 이것도 DTO로 변경해야 함
+        private List<OrderItemDto> orderItems;
 
         public OrderDto(Order order) {
             orderId = order.getId();
@@ -65,8 +66,26 @@ public class OrderApiController {
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress(); //LAZY 초기화
 
-            order.getOrderItems().stream().forEach(o -> o.getItem().getName()); //LAZY 초기화
-            orderItems = order.getOrderItems();
+            //DTO로 변환
+            orderItems = order.getOrderItems().stream()
+                    .map(orderItem -> new OrderItemDto(orderItem))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Getter
+    static class OrderItemDto{
+
+        // 필요한 데이터만 조회
+        private String itemName; //상품 명
+        private int orderPrice; //주문 가격
+        private int count; //주문 수량
+
+        //LAZY 초기화
+        public OrderItemDto(OrderItem orderItem) {
+            itemName = orderItem.getItem().getName();
+            orderPrice = orderItem.getOrderPrice();
+            count = orderItem.getCount();
         }
     }
 }
