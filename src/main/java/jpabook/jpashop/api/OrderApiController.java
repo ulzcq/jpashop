@@ -31,6 +31,9 @@ import java.util.stream.Collectors;
  *
  * V4. JPA에서 DTO로 바로 조회, 컬렉션 N 조회 (1 + N Query)
  * - 페이징 가능
+ *
+ * V5. JPA에서 DTO로 바로 조회, 컬렉션 N 조회 (1 + 1 Query)
+ * - 페이징 가능
  */
 @RestController
 @RequiredArgsConstructor
@@ -115,6 +118,13 @@ public class OrderApiController {
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> ordersV4(){
         return orderQueryRepository.findOrderQueryDtos();
+    }
+
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> ordersV5(){
+        return orderQueryRepository.findAllByDto_optimization();
+
     }
 
     @Getter //@Data는 toString까지 만들어주기도하고, 그냥 Getter 쓰는게 나을 수도.
