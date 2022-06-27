@@ -10,6 +10,7 @@ import jpabook.jpashop.repository.order.query.OrderFlatDto;
 import jpabook.jpashop.repository.order.query.OrderItemQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
+import jpabook.jpashop.service.query.OrderQueryService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,16 +92,12 @@ public class OrderApiController {
      * - 컬렉션 일대다 페치조인은 페이징 불가능
      * - 컬렉션 둘 이상에 페치조인 사용은 불가능
      */
+
+    private final OrderQueryService orderQueryService;
     @GetMapping("/api/v3/orders")
-    public List<OrderDto> ordersV3(){
-        List<Order> orders = orderRepository.findAllWithItem();
+    public List<jpabook.jpashop.service.query.OrderDto> ordersV3(){
+        return orderQueryService.ordersV3(); //OSIV OFF -> Command와 Query 분리함
 
-        //DTO로 변환
-        List<OrderDto> result = orders.stream()
-                .map(o -> new OrderDto(o))
-                .collect(toList());
-
-        return result;
     } //V2, V3의 코드는 같지만 fetch join으로 쿼리 수를 줄였다.
 
     /**
